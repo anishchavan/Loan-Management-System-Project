@@ -6,4 +6,6 @@ import com.lms.employeeservice.model.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 
+	Employee findByUsernameAndPassword(String un, String ps);
+
 }

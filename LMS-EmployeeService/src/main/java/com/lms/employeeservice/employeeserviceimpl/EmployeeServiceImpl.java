@@ -17,6 +17,11 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 	public Employee saveEmployee(Employee emp) {
 		return er.save(emp);
 	}
+
+	@Override
+	public Employee loginEmployee(String un, String ps) {
+		return er.findByUsernameAndPassword(un,ps);
+	}
 	
 	
 	
