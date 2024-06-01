@@ -35,7 +35,7 @@ public class ConsumerController {
 	}
 	
 	@GetMapping("/login/{un}/{ps}")
-	public ResponseEntity<Employee> loginEmployee(@PathVariable String un, @PathVariable String ps, @RequestBody Employee e){
+	public ResponseEntity<Employee> loginEmployee(@PathVariable String un, @PathVariable String ps){
 		String url="http://zuul/employee/login/"+ un +"/"+ ps;
 		Employee emp = rt.getForObject(url, Employee.class);
 		return new ResponseEntity<Employee>(emp,HttpStatus.OK);
