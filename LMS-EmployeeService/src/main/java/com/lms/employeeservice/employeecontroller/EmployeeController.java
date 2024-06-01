@@ -31,6 +31,7 @@ public class EmployeeController {
 	public ResponseEntity<Employee> loginEmployee(@PathVariable String un, @PathVariable String ps){
 		Employee authEmp = esi.loginEmployee(un, ps);
 		System.out.println("sop added in login api");
+		System.out.println("sop added by rakhi...");
 		return new ResponseEntity<Employee>(authEmp,HttpStatus.OK);
 	}
 }
