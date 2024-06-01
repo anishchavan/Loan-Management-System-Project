@@ -1,9 +1,11 @@
 package com.lms.employeeservice.employeerepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.lms.employeeservice.model.Employee;
 
+@Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 
 	Employee findByUsernameAndPassword(String un, String ps);

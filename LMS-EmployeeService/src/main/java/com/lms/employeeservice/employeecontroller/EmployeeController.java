@@ -29,6 +29,7 @@ public class EmployeeController {
 	@GetMapping("/login/{un}/{ps}")
 	public ResponseEntity<Employee> loginEmployee(@PathVariable String un, @PathVariable String ps){
 		Employee authEmp = esi.loginEmployee(un, ps);
+		System.out.println("sop added in login api");
 		return new ResponseEntity<Employee>(authEmp,HttpStatus.OK);
 	}
 }
