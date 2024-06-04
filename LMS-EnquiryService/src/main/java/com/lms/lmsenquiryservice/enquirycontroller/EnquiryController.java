@@ -28,7 +28,7 @@ public class EnquiryController {
 	public ResponseEntity<Enquiry> registerApplicant(@RequestBody Enquiry e){
 		e.setCibilStatus(String.valueOf(CibilStatus.pending));
 		Enquiry enquiry = esi.registerApplicant(e);
-		log.info("Applicant has been registered successfully");
+		log.info("Applicant has been registered successfully..");
 		return new ResponseEntity<Enquiry>(enquiry, HttpStatus.CREATED);
 	}
 	

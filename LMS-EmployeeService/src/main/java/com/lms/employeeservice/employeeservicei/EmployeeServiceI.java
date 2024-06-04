@@ -11,5 +11,4 @@ public interface EmployeeServiceI {
 	Employee loginEmployee(String un, String ps);
 
 	List<Employee> getEmployees();
-
 }

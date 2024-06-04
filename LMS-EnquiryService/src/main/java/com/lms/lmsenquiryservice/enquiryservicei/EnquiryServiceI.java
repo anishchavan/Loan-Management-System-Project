@@ -9,5 +9,7 @@ public interface EnquiryServiceI {
 	Enquiry registerApplicant(Enquiry e);
 
 	List<Enquiry> getApplicants();
+	
+
 
 }

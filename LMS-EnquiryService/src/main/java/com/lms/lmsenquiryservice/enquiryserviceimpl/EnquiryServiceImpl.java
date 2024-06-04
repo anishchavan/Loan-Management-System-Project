@@ -20,5 +20,6 @@ public class EnquiryServiceImpl implements EnquiryServiceI {
 	public List<Enquiry> getApplicants() {
 		return (List<Enquiry>) er.findAll();
 	}
+	
 
 }
