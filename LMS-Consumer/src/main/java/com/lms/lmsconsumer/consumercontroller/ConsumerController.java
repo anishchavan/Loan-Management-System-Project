@@ -33,7 +33,7 @@ public class ConsumerController {
 	public ResponseEntity<Enquiry> registerApplicant(@RequestBody Enquiry e){
 		String url = "http://zuul/enquiry/applicant";
 		Enquiry enq = rt.postForObject(url, e, Enquiry.class);
-		log.info("Applicant has been registered successfully");
+		log.info("Applicant has been registered successfully...");
 		return new ResponseEntity<Enquiry>(enq,HttpStatus.CREATED);
 	}
 	
