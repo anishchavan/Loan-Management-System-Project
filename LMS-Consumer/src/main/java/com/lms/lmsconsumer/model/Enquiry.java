@@ -20,6 +20,8 @@ public class Enquiry {
 	private String panCardNo;
 	private long applicantMobileNo;
 	private String applicantEmail;
+	private Integer cibilScore;
+	private String cibilStatus;
 }
 
 
