@@ -1,6 +1,7 @@
 package com.lms.lmsenquiryservice.enquiryserviceimpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,15 @@ public class EnquiryServiceImpl implements EnquiryServiceI {
 	@Override
 	public List<Enquiry> getApplicants() {
 		return (List<Enquiry>) er.findAll();
+	}
+	@Override
+	public Iterable<Enquiry> getEnquiry(String CIBILStatus) {
+			Iterable<Enquiry> getEnq = er.findAllByCibilStatus(CIBILStatus);
+		return getEnq;
+	}
+	@Override
+	public Optional<Enquiry> getSingleEnquiry(Integer applicantId) {
+		return er.findById(applicantId);
 	}
 	
 
