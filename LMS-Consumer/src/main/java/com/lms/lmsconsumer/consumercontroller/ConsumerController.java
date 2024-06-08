@@ -91,24 +91,41 @@ public class ConsumerController {
 		return new ResponseEntity<Employee>(emp,HttpStatus.OK);
 	}
 	
-	@GetMapping("/enquiries/{CIBILStatus}")
-	public ResponseEntity<BaseResponse<Iterable<Enquiry>>> getEnquiries(@PathVariable String CIBILStatus){
-	    String url = "http://zuul/enquiry/getEnquiry/" + CIBILStatus;
-	    ResponseEntity<BaseResponse<Iterable<Enquiry>>> responseEntity = rt.exchange(
-	        url,
-	        HttpMethod.GET,
-	        null,
-	        new ParameterizedTypeReference<BaseResponse<Iterable<Enquiry>>>() {}
-	    );
-
-	    BaseResponse<Iterable<Enquiry>> baseResponse = responseEntity.getBody();
-	    log.info("{}", baseResponse.getResponseData());
-	    log.info("The enquiries has been retrieved successfully");
-	    System.out.println(baseResponse.getResponseData());
-
-	    return new ResponseEntity<BaseResponse<Iterable<Enquiry>>>(baseResponse, HttpStatus.OK);
+//	@GetMapping("/enquiries/{cibilStatus}")
+//	public ResponseEntity<BaseResponse<Iterable<Enquiry>>> getEnquiries(@PathVariable String cibilStatus){
+//	    String url = "http://zuul/enquiry/getEnquiry/" + cibilStatus;
+//	    ResponseEntity<BaseResponse<Iterable<Enquiry>>> responseEntity = rt.exchange(
+//	        url,
+//	        HttpMethod.GET,
+//	        null,
+//	        new ParameterizedTypeReference<BaseResponse<Iterable<Enquiry>>>() {}
+//	    );
+//
+//	    BaseResponse<Iterable<Enquiry>> baseResponse = responseEntity.getBody();
+//	    log.info("{}", baseResponse.getResponseData());
+//	    log.info("The enquiries has been retrieved successfully");
+//	    System.out.println(baseResponse.getResponseData());
+//
+//	    return new ResponseEntity<BaseResponse<Iterable<Enquiry>>>(baseResponse, HttpStatus.OK);
+//	}
+	
+	@GetMapping("/enquiries/{cibilStatus}")
+	public Iterable<Enquiry> getEnquiries(@PathVariable String cibilStatus){
+	    String url = "http://zuul/enquiry/getEnquiry/" + cibilStatus;
+	    
+	    Iterable<Enquiry> forObject = rt.getForObject(url, Iterable.class);
+	   
+	    return forObject;
 	}
 	
+//	@PutMapping("/checkCibilScore/{applicantId}")
+//	public Enquiry checkCibilScore(@PathVariable("applicantId") Integer applicantId, @RequestBody Enquiry enq) {
+//	    String url = "http://zuul/enquiry/checkCibil/" + applicantId;
+//	    Enquiry response=rt.put(url,enq,applicantId);
+//        return response;
+//	   
+//	}
+//	
 	@GetMapping("/getEnquiry/{applicantId}")
 	public ResponseEntity<BaseResponse<Enquiry>> getSingleEnquiry(@PathVariable Integer applicantId){
 		String url = "http://zuul/enquiry/getSingleEnquiry/" + applicantId;
@@ -127,27 +144,44 @@ public class ConsumerController {
 		    return new ResponseEntity<BaseResponse<Enquiry>>(baseResponse, HttpStatus.OK);
 	}
 	
-	@PutMapping("/checkCibilScore/{enquiryId}")
-	public ResponseEntity<BaseResponse<Enquiry>> checkCibilScore(@PathVariable("enquiryId") Integer enquiryId, @RequestBody Enquiry enq) {
-	    String url = "http://zuul/enquiry/checkCibil/" + enquiryId;
-	    HttpEntity<Enquiry> requestEntity = new HttpEntity<>(enq);
-
-	    ResponseEntity<BaseResponse<Enquiry>> responseEntity = rt.exchange(
+//	@PutMapping("/checkCibilScore/{enquiryId}")
+//	public ResponseEntity<BaseResponse<Enquiry>> checkCibilScore(@PathVariable("enquiryId") Integer enquiryId, @RequestBody Enquiry enq) {
+//	    String url = "http://zuul/enquiry/checkCibil/" + enquiryId;
+//	    HttpEntity<Enquiry> requestEntity = new HttpEntity<>(enq);
+//
+//	    ResponseEntity<BaseResponse<Enquiry>> responseEntity = rt.exchange(
+//	        url,
+//	        HttpMethod.PUT,
+//	        requestEntity,
+//	        new ParameterizedTypeReference<BaseResponse<Enquiry>>() {}
+//	    );
+//
+//	    BaseResponse<Enquiry> baseResponse = responseEntity.getBody();
+//	    if (baseResponse != null) {
+//	        log.info("{}", baseResponse.getResponseData());
+//	        log.info("CIBIL check response: {}", baseResponse.getMessage());
+//
+//	        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+//	    } else {
+//	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//	    }
+//	}
+	@GetMapping("/getPending")
+	public ResponseEntity<BaseResponse<Iterable<Enquiry>>> getPendingEnquiries(){
+	    String url = "http://zuul/enquiry/getPendingEnquiry";
+	    ResponseEntity<BaseResponse<Iterable<Enquiry>>> responseEntity = rt.exchange(
 	        url,
-	        HttpMethod.PUT,
-	        requestEntity,
-	        new ParameterizedTypeReference<BaseResponse<Enquiry>>() {}
+	        HttpMethod.GET,
+	        null,
+	        new ParameterizedTypeReference<BaseResponse<Iterable<Enquiry>>>() {}
 	    );
 
-	    BaseResponse<Enquiry> baseResponse = responseEntity.getBody();
-	    if (baseResponse != null) {
-	        log.info("{}", baseResponse.getResponseData());
-	        log.info("CIBIL check response: {}", baseResponse.getMessage());
+	    BaseResponse<Iterable<Enquiry>> baseResponse = responseEntity.getBody();
+	    log.info("{}", baseResponse.getResponseData());
+	    log.info("The enquiries has been retrieved successfully");
+	    System.out.println(baseResponse.getResponseData());
 
-	        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
-	    } else {
-	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	    }
+	    return new ResponseEntity<BaseResponse<Iterable<Enquiry>>>(baseResponse, HttpStatus.OK);
 	}
 
 	

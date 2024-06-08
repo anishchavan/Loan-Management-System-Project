@@ -1,5 +1,6 @@
 package com.lms.lmsenquiryservice.enquirycontroller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,11 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.lms.lmsenquiryservice.enquiryservicei.EnquiryServiceI;
-import com.lms.lmsenquiryservice.enums.CibilStatus;
+import com.lms.lmsenquiryservice.enums.cibilStatus;
 import com.lms.lmsenquiryservice.exceptions.EnquiryNotFound;
 import com.lms.lmsenquiryservice.model.Enquiry;
 import com.lms.lmsenquiryservice.response.BaseResponse;
 
+@CrossOrigin("*")
 @RestController
 public class EnquiryController {
 	@Autowired
@@ -33,7 +36,7 @@ public class EnquiryController {
 	
 	@PostMapping("/applicant")
 	public ResponseEntity<Enquiry> registerApplicant(@RequestBody Enquiry e){
-		e.setCibilStatus(String.valueOf(CibilStatus.pending));
+		e.setCibilStatus(String.valueOf(cibilStatus.pending));
 		Enquiry enquiry = esi.registerApplicant(e);
 		log.info("Applicant has been registered successfully..");
 		return new ResponseEntity<Enquiry>(enquiry, HttpStatus.CREATED);
@@ -46,67 +49,72 @@ public class EnquiryController {
 		  log.info("The enquiries has been retrieved successfully");
 		return new ResponseEntity<List<Enquiry>>(aList, HttpStatus.OK);
 	}
+//	
+//	@GetMapping("/getEnquiry/{cibilStatus}") 
+//	public Iterable<Enquiry> getEnquiry(@PathVariable("cibilStatus") String cibilStatus)
+//	{
+//		Enquiry eq=null;
+//		
+//		 Iterable<Enquiry> enq = esi.getEnquiry(cibilStatus);
+//		 for(Enquiry enq1:enq) {
+//			 if(enq1 !=null) {
+//				 eq=enq1;
+//			 }
+//		 }
+//		 if(eq !=null) {
+//		
+//		 return enq ;
+//		 }else {
+//		 throw new EnquiryNotFound();
+//		 }	
+//		 
+//	}
 	
-	@GetMapping("/getEnquiry/{CIBILStatus}") 
-	public ResponseEntity<BaseResponse<Iterable<Enquiry>>> getEnquiry(@PathVariable("CIBILStatus") String CIBILStatus)
+	
+	@GetMapping("/getEnquiry/{cibilStatus}") 
+	public Iterable<Enquiry> getEnquiry(@PathVariable("cibilStatus") String cibilStatus)
 	{
-		Enquiry eq=null;
-		
-		 Iterable<Enquiry> enq = esi.getEnquiry(CIBILStatus);
-		 for(Enquiry enq1:enq) {
-			 if(enq1 !=null) {
-				 eq=enq1;
-			 }
-		 }
-		 if(eq !=null) {
-		 BaseResponse<Iterable<Enquiry>> ba= new BaseResponse<>(200,"All data Ok",enq);
-		 return new ResponseEntity<BaseResponse<Iterable<Enquiry>>>(ba,HttpStatus.OK) ;
-		 }else {
-		 throw new EnquiryNotFound();
-		 }	
-		 
+		return esi.getEnquiry(cibilStatus);		 
 	}
 	
-	@GetMapping("/getSingleEnquiry/{applicantId}")
-	public ResponseEntity<BaseResponse<Enquiry>> getSingleEnquiry(@PathVariable Integer applicantId){
-		Optional<Enquiry> singleEnquiry = esi.getSingleEnquiry(applicantId);
+	@GetMapping("/getsingleenquiry/{enqid}")
+	public Optional<Enquiry> getSingleEnquiry(@PathVariable Integer enqid){
+		Optional<Enquiry> singleEnquiry = esi.getSingleEnquiry(enqid);
 		if(singleEnquiry.isPresent()) {
-			BaseResponse ba= new BaseResponse<>(200,"All data Ok",singleEnquiry);
-			return new ResponseEntity<BaseResponse<Enquiry>>(ba,HttpStatus.OK);
+			
+			return singleEnquiry;
 			
 		}else {
 			throw new EnquiryNotFound();
 		}
 	}
 	
-	@PutMapping("/checkCibil/{enquiryId}")
-	public ResponseEntity<BaseResponse<Enquiry>> checkCibilScore(@PathVariable("enquiryId") Integer enquiryId,@RequestBody Enquiry enq)
+	@PutMapping("/CheckCIBIL/{applicantId}")
+	public Enquiry checkCibilScore(@PathVariable("applicantId") Integer applicantId,@RequestBody Enquiry enq)
 	{
 		Random ramdom=new Random();
 		int cibilScore = ramdom.nextInt(300, 900);
 		
 		if(cibilScore>=600 && cibilScore<=900) 
 		{
-			enq.setCibilStatus(String.valueOf(CibilStatus.approved));
+			enq.setCibilStatus(String.valueOf(cibilStatus.approved));
 			enq.setCibilScore(cibilScore);
 		
 		    Enquiry enquiry = esi.registerApplicant(enq);
 
-		    BaseResponse<Enquiry> baseResponse = new BaseResponse<Enquiry>(200,"CIBIL Approved",enquiry);
-			return new ResponseEntity<BaseResponse<Enquiry>>(baseResponse,HttpStatus.OK);
+		
+			return enquiry;
 		}
 		else
 		{
-			enq.setCibilStatus(String.valueOf(CibilStatus.rejected));
+			enq.setCibilStatus(String.valueOf(cibilStatus.rejected));
 			enq.setCibilScore(cibilScore);
 			
 			Enquiry enquiry = esi.registerApplicant(enq);
 			
-	        BaseResponse<Enquiry> baseResponse = new BaseResponse<Enquiry>(200,"CIBIL Rejected",enquiry);
-			return new ResponseEntity<BaseResponse<Enquiry>>(baseResponse,HttpStatus.OK);
+			return enquiry;
 		}
-		
+	}
 	
-
-}
+	
 }

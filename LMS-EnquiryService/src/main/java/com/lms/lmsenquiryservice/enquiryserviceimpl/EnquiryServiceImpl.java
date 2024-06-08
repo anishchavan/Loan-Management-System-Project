@@ -22,14 +22,27 @@ public class EnquiryServiceImpl implements EnquiryServiceI {
 		return (List<Enquiry>) er.findAll();
 	}
 	@Override
-	public Iterable<Enquiry> getEnquiry(String CIBILStatus) {
-			Iterable<Enquiry> getEnq = er.findAllByCibilStatus(CIBILStatus);
-		return getEnq;
+	public Iterable<Enquiry> getEnquiry(String cibilStatus) {
+		
+		Iterable<Enquiry> get = er.findAllByCibilStatus(cibilStatus);
+		return get;
 	}
+
 	@Override
-	public Optional<Enquiry> getSingleEnquiry(Integer applicantId) {
-		return er.findById(applicantId);
+	public Optional<Enquiry> getSingleEnquiry(Integer enqid) {
+		
+		Optional<Enquiry> findById = er.findById(enqid);
+		return findById;
 	}
+
+	@Override
+	public Optional<Enquiry> findById(Integer enquiryId) {
+		
+		return er.findById(enquiryId);
+
+	}
+
+	
 	
 
 }
