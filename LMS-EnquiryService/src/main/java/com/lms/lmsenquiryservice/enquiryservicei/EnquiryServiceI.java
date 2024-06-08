@@ -11,9 +11,11 @@ public interface EnquiryServiceI {
 
 	List<Enquiry> getApplicants();
 
-	Iterable<Enquiry> getEnquiry(String CIBILStatus);
+	Iterable<Enquiry> getEnquiry(String cibilStatus);
 
-	Optional<Enquiry> getSingleEnquiry(Integer applicantId);
+	Optional<Enquiry> getSingleEnquiry(Integer enqid);
+	
+	public Optional<Enquiry> findById(Integer enquiryId);
 	
 
 
