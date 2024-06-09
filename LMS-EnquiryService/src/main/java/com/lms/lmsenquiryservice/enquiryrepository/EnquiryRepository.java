@@ -8,4 +8,6 @@ import com.lms.lmsenquiryservice.model.Enquiry;
 @Repository
 public interface EnquiryRepository extends CrudRepository<Enquiry, Integer> {
 
+	Iterable<Enquiry> findAllByCibilStatus(String cibilStatus);
+
 }
