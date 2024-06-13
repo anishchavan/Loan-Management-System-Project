@@ -2,6 +2,8 @@ package com.lms.customerservice.app.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CustomerDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +31,7 @@ public class CustomerDetails {
 	private long aadharNumber;
 	private String customerDateOfBirth;
 	private String customerGender;
+	private String customerLoanStatus;
 	private String qualification;
 	private Integer customerCibilScore;
 	
@@ -55,6 +59,6 @@ public class CustomerDetails {
 	@OneToOne(cascade = CascadeType.ALL)
 	private LoanDisbursement loanDisbursement;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	private SanctionLetter sanctionLetter;
+//	@OneToOne(cascade = CascadeType.ALL)
+//	private SanctionLetter sanctionLetter;
 }

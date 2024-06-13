@@ -6,4 +6,6 @@ import com.lms.customerservice.app.model.CustomerDetails;
 
 public interface CustomerRepository extends JpaRepository<CustomerDetails, Integer>{
 
+	Iterable<CustomerDetails> findByCustomerLoanStatus(String customerLoanStatus);
+
 }

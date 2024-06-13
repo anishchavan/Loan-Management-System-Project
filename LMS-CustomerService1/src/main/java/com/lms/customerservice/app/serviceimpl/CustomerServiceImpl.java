@@ -1,7 +1,5 @@
 package com.lms.customerservice.app.serviceimpl;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +32,18 @@ public class CustomerServiceImpl  implements CustomerServiceI{
 		
 	}
 
-	
+	@Override
+	public Iterable<CustomerDetails> getCustomerByLoanStatus(String customerLoanStatus) {
+		return cr.findByCustomerLoanStatus(customerLoanStatus);
+	}
+
+	@Override
+	public CustomerDetails getCustomerById(int customerId) {
+		
+		return cr.findById(customerId).get();
+	}
+
+
 		
 	}
 

@@ -1,7 +1,5 @@
 package com.lms.customerservice.app.servicei;
 
-import java.util.Optional;
-
 import com.lms.customerservice.app.model.CustomerDetails;
 
 public interface CustomerServiceI {
@@ -11,6 +9,12 @@ public interface CustomerServiceI {
 	Iterable<CustomerDetails> getCustomerDetails();
 
 	void deleteCustomer(int customerId);
+
+	Iterable<CustomerDetails> getCustomerByLoanStatus(String customerLoanStatus);
+
+	CustomerDetails getCustomerById(int customerId);
+
+//	Iterable<CustomerDetails> getCustomerByLoanStatus(String customerLoanStatus);
 
 	
 
