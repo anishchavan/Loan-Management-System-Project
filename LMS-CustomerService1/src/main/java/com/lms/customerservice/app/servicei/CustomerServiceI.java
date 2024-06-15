@@ -12,6 +12,16 @@ public interface CustomerServiceI {
 
 	void deleteCustomer(int customerId);
 
+	//Iterable<CustomerDetails> getCustomerByLoanStatus(String customerLoanStatus);
+
+
+	Optional<CustomerDetails> findById(int customerId);
+
+	
+
+
+	
+
 	
 
 	

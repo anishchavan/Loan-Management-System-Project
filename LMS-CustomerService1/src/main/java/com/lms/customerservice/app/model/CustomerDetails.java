@@ -29,6 +29,7 @@ public class CustomerDetails {
 	private String customerDateOfBirth;
 	private String customerGender;
 	private String qualification;
+	private String customerLoanStatus;
 	private Integer customerCibilScore;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -53,8 +54,8 @@ public class CustomerDetails {
 	private CustomerDocuments customerDocuments;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	private LoanDisbursement loanDisbursement;
+	private SanctionLetter sanctionLetter;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	private SanctionLetter sanctionLetter;
+	private LoanDisbursement loanDisbursement;
 }
