@@ -61,6 +61,7 @@ public class CustomerController {
 			cd.setCustomerLoanStatus(String.valueOf(CustomerLoanStatus.Applied));
 		CustomerDetails	 customer=csi.saveCustomerDetails(cd);
 		System.out.println(customer);
+		
 		bs = new BaseResponse<>(201, "Data Saved",customer);
 		} 
 		catch (Exception e) {

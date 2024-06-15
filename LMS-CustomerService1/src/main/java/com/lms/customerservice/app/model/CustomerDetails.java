@@ -22,6 +22,7 @@ public class CustomerDetails {
     private String customerFirstName;
     private String customerMiddleName;
     private String customerLastName;
+    
     private long mobileNumber;
 	private String CustomerEmailId;
 	private String panCardNumber;

@@ -16,6 +16,7 @@ public class CustomerExceptionHandler {
 	  @ExceptionHandler(value=CustomerNotFound.class)
 			public ResponseEntity<ApiErrorResponse> customerNotFound(){
 				ApiErrorResponse apir= new ApiErrorResponse(404,"Customer Not Found",new Date());
+		
 				return new ResponseEntity<ApiErrorResponse>(apir,HttpStatus.NOT_FOUND);		
 			}
 

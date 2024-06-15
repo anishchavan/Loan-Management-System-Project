@@ -5,6 +5,7 @@ import com.lms.customerservice.app.model.SanctionLetter;
 
 public interface SanctionServiceI {
 
+	
 	CustomerDetails generateSactionId(int customerId, SanctionLetter sanctionLetter);
 
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.lms.customerservice.app.model.SanctionLetter;
 
+
 @Repository
 public interface SanctionRepository extends JpaRepository<SanctionLetter, Integer> {
 

@@ -31,6 +31,7 @@ import com.lowagie.text.pdf.PdfWriter;
 @Service
 public class SanctionServiceImpl implements SanctionServiceI{
 	
+	
 	@Autowired
 	CustomerRepository cr;
 

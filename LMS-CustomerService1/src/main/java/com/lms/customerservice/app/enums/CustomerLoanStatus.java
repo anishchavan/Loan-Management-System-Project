@@ -8,4 +8,5 @@ public enum CustomerLoanStatus {
 	SanctionLetterApproved,SanctionLetterRejected,Applied
 
 
+	
 }

@@ -21,6 +21,7 @@ public class SanctionController {
 	@PutMapping("/generatePdf/{customerId}")
 	public CustomerDetails updateSactionLetter(@PathVariable int customerId, @RequestBody SanctionLetter sanctionLetter) {
 
+		
 			return ss.generateSactionId(customerId, sanctionLetter);
 	}
 
