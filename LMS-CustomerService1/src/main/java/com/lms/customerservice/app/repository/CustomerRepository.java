@@ -8,4 +8,6 @@ public interface CustomerRepository extends JpaRepository<CustomerDetails, Integ
 
 	Iterable<CustomerDetails> findByCustomerLoanStatus(String customerLoanStatus);
 
+	CustomerDetails findByUsernameAndPassword(String username, String password);
+
 }

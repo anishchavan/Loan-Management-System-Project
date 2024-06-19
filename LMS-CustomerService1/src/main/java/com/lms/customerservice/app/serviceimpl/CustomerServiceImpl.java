@@ -3,6 +3,7 @@ package com.lms.customerservice.app.serviceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Optional;
 import com.lms.customerservice.app.model.CustomerDetails;
 import com.lms.customerservice.app.repository.CustomerRepository;
 import com.lms.customerservice.app.servicei.CustomerServiceI;
@@ -43,6 +44,11 @@ public class CustomerServiceImpl  implements CustomerServiceI{
 		return cr.findById(customerId).get();
 	}
 
+	@Override
+	public CustomerDetails loginCheck(String username, String password) {
+		
+		return cr.findByUsernameAndPassword(username, password);
+	}
 
 		
 	}

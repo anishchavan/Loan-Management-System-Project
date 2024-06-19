@@ -1,5 +1,6 @@
 package com.lms.customerservice.app.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.service.annotation.GetExchange;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lms.customerservice.app.enums.CustomerLoanStatus;
 import com.lms.customerservice.app.exception.CustomerNotFound;
 import com.lms.customerservice.app.model.CustomerDetails;
 import com.lms.customerservice.app.repository.CustomerRepository;
@@ -98,6 +101,43 @@ public class CustomerController {
 		return cd;
 	}
 	
+	@PutMapping(value = "/updateCustomer/{customerLoanStatus}/{customerId}")	//update customer by loan status--
+	public ResponseEntity<CustomerDetails> updateCustomer(@PathVariable String customerLoanStatus,
+			                                                            @PathVariable int customerId) throws IOException
+	{
+	    
+		Optional<CustomerDetails> customerdetails = cr.findById(customerId);
+		
+		if (customerdetails.isPresent())
+		{
+			CustomerDetails singlecustomer = customerdetails.get();	
+			
+			if(customerLoanStatus.equals("Applied")) 
+			{
+				
+				singlecustomer.setCustomerLoanStatus(String.valueOf(CustomerLoanStatus.Verified));
+				System.out.println(singlecustomer);
+				CustomerDetails cd = csi.saveCustomerDetails(singlecustomer);
+				
+				return new ResponseEntity<CustomerDetails>( HttpStatus.OK);
+			}
+			else if(customerLoanStatus.equals("Verified"))
+			{
+				singlecustomer.setCustomerLoanStatus(String.valueOf(CustomerLoanStatus.SanctionLetterGenerated));
+				CustomerDetails cd2 = csi.saveCustomerDetails(singlecustomer);
+				return new ResponseEntity<CustomerDetails>(HttpStatus.OK);	
+			}
+		}
+		else 
+		{
+			throw new CustomerNotFound();
+		}
+		
+		return new ResponseEntity<CustomerDetails>(HttpStatus.NOT_FOUND);
+	
+	}
+
+	
 	@DeleteMapping("/deleteCustomer/{customerId}")
 	public ResponseEntity<BaseResponse<CustomerDetails>> deleteCustomer(@PathVariable int customerId){
 		Optional<CustomerDetails> customerDetails=cr.findById(customerId);
@@ -110,6 +150,13 @@ public class CustomerController {
 			 throw new CustomerNotFound();
 		}}
 	
+	@GetMapping("/customerLogin/{username}/{password}")
+	public CustomerDetails customerLogin(@PathVariable String username, @PathVariable String password) {
+		CustomerDetails cd = csi.loginCheck(username, password);
+		return cd;
+	}
+		
+		
 	
 	
 }
