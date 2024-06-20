@@ -92,7 +92,7 @@ public class EnquiryController {
 	public Enquiry checkCibilScore(@PathVariable("applicantId") Integer applicantId,@RequestBody Enquiry enq)
 	{
 		Random ramdom=new Random();
-		int cibilScore = ramdom.nextInt(300, 900);
+		int cibilScore = ramdom.nextInt(500, 900);
 		
 		if(cibilScore>=600 && cibilScore<=900) 
 		{

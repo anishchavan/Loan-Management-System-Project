@@ -1,5 +1,5 @@
 package com.lms.employeeservice.enums;
 
 public enum EmployeeType {
-	ADMIN, OE, CRM, CM, AH
+	ADMIN, OE, CRM, CM, AH, Customer
 }
