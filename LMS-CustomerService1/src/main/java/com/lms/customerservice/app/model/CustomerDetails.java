@@ -2,11 +2,17 @@ package com.lms.customerservice.app.model;
 
 
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CustomerDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +35,11 @@ public class CustomerDetails {
 	private long aadharNumber;
 	private String customerDateOfBirth;
 	private String customerGender;
+	private String customerLoanStatus;
 	private String qualification;
 	private Integer customerCibilScore;
+	private String username;
+	private String password;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private CustomerAddress customerAddress;
@@ -57,4 +67,7 @@ public class CustomerDetails {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private SanctionLetter sanctionLetter;
+	
+	@OneToMany(mappedBy = "customerDetails", cascade = CascadeType.ALL)
+    private  List<Ledger> ledger;
 }

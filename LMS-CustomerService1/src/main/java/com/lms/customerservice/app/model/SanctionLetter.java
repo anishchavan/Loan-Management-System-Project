@@ -25,9 +25,9 @@ public class SanctionLetter {
 	private Double rateOfInterest;
 	private Integer loanTenure;
 	private Double monthlyEmiAmount;
-	private String termsAndCondition;
+
 	@Lob
-	@Column(length = 100000)
+	@Column(length = 900000)
 	private byte[] sanctionLetter;
 
 }

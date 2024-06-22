@@ -1,31 +1,35 @@
 package com.lms.customerservice.app.controller;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.service.annotation.GetExchange;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lms.customerservice.app.enums.CustomerLoanStatus;
 import com.lms.customerservice.app.exception.CustomerNotFound;
 import com.lms.customerservice.app.model.CustomerDetails;
-import com.lms.customerservice.app.model.CustomerDocuments;
 import com.lms.customerservice.app.repository.CustomerRepository;
 import com.lms.customerservice.app.response.BaseResponse;
 import com.lms.customerservice.app.servicei.CustomerServiceI;
 
 
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
@@ -39,13 +43,16 @@ public class CustomerController {
 			@RequestPart("aadharCard") MultipartFile file2,
 			@RequestPart("photo") MultipartFile file3,
 			@RequestPart("salarySlips") MultipartFile file4,
-			@RequestPart("bankStatement") MultipartFile file5,
-			@RequestPart("sanctionLetter") MultipartFile file6){
+			@RequestPart("bankStatement") MultipartFile file5)
+
+	{
+		
 		
 		ObjectMapper om=new ObjectMapper();
 		BaseResponse bs=null;
 		try {
-			
+			System.out.println(file1.getBytes()+"testing testing...");
+			System.out.println("In Customer Service Controller");
 			CustomerDetails cd = om.readValue(alldata,CustomerDetails.class);
 			
 			cd.getCustomerDocuments().setPanCard(file1.getBytes());
@@ -53,7 +60,6 @@ public class CustomerController {
 			cd.getCustomerDocuments().setPhoto(file3.getBytes());
 			cd.getCustomerDocuments().setSalarySlips(file4.getBytes());
 			cd.getCustomerDocuments().setBankStatement(file5.getBytes());
-			cd.getSanctionLetter().setSanctionLetter(file6.getBytes());
 			
 			
 		CustomerDetails	 customer=csi.saveCustomerDetails(cd);
@@ -80,6 +86,58 @@ public class CustomerController {
 		}
 		}
 	
+
+	@GetMapping("/getCustomer/{customerLoanStatus}")
+	public Iterable<CustomerDetails>getCustomerByLoanStatus(@PathVariable String customerLoanStatus){
+		Iterable<CustomerDetails> customerList = csi.getCustomerByLoanStatus(customerLoanStatus);
+		return customerList;
+	}
+	
+	@GetMapping("/getCustomerById/{customerId}")
+	public CustomerDetails getCustomerById(@PathVariable int customerId) {
+		System.out.println("In getCustomerById: " + customerId);
+		CustomerDetails cd = csi.getCustomerById(customerId);
+		System.out.println(cd);
+		return cd;
+	}
+	
+	@PutMapping(value = "/updateCustomer/{customerLoanStatus}/{customerId}")	//update customer by loan status--
+	public ResponseEntity<CustomerDetails> updateCustomer(@PathVariable String customerLoanStatus,
+			                                                            @PathVariable int customerId) throws IOException
+	{
+	    
+		Optional<CustomerDetails> customerdetails = cr.findById(customerId);
+		
+		if (customerdetails.isPresent())
+		{
+			CustomerDetails singlecustomer = customerdetails.get();	
+			
+			if(customerLoanStatus.equals("Applied")) 
+			{
+				
+				singlecustomer.setCustomerLoanStatus(String.valueOf(CustomerLoanStatus.Verified));
+				System.out.println(singlecustomer);
+				CustomerDetails cd = csi.saveCustomerDetails(singlecustomer);
+				
+				return new ResponseEntity<CustomerDetails>( HttpStatus.OK);
+			}
+			else if(customerLoanStatus.equals("Verified"))
+			{
+				singlecustomer.setCustomerLoanStatus(String.valueOf(CustomerLoanStatus.SanctionLetterGenerated));
+				CustomerDetails cd2 = csi.saveCustomerDetails(singlecustomer);
+				return new ResponseEntity<CustomerDetails>(HttpStatus.OK);	
+			}
+		}
+		else 
+		{
+			throw new CustomerNotFound();
+		}
+		
+		return new ResponseEntity<CustomerDetails>(HttpStatus.NOT_FOUND);
+	
+	}
+
+	
 	@DeleteMapping("/deleteCustomer/{customerId}")
 	public ResponseEntity<BaseResponse<CustomerDetails>> deleteCustomer(@PathVariable int customerId){
 		Optional<CustomerDetails> customerDetails=cr.findById(customerId);
@@ -92,6 +150,13 @@ public class CustomerController {
 			 throw new CustomerNotFound();
 		}}
 	
+	@GetMapping("/customerLogin/{username}/{password}")
+	public CustomerDetails customerLogin(@PathVariable String username, @PathVariable String password) {
+		CustomerDetails cd = csi.loginCheck(username, password);
+		return cd;
+	}
+		
+		
 	
 	
 }

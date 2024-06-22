@@ -16,7 +16,7 @@ public class GuarantorDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer guarantorDetailsId;
-	private String gurantorName;
+	private String guarantorName;
 	private String guarantorAddress;
 	private long mobileNumber;
 	private String designation;
